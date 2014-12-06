@@ -1,0 +1,14 @@
+{
+	"img": [
+		{
+			"name": "spacecraft",
+			"url": "img/spacecraft.png"
+		}
+	],	
+	"audio": [
+		{
+			"name": "adventua",
+			"url": "audio/adventua-orchestral.mp3"
+		}
+	]
+}
