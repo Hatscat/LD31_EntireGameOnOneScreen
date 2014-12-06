@@ -100,7 +100,7 @@ function normalize (dX, dY) {
 }
 
 function get_xy (c) {
-	return [c%COLS, (c/COLS|0)];
+	return [c%COLS, c/COLS|0];
 }
 
 function get_cell_from_xy (xy) {

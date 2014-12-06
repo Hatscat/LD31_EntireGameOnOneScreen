@@ -3,7 +3,7 @@ function init_config () {
 	SC_LOAD = 1;
 	SC_GAME = 2;
 	TRANS_DURATION = 1e3;
-	STEP_TIMER = 1e3;
+	STEP_TIMER = 250;
 	LEFT = Math.PI;
 	RIGHT = 0;
 	UP = Math.PI * 3 / 2;
@@ -79,7 +79,7 @@ function set_size () {
 	canvas.width = main_buffer.width = transition_buffer.width = W = window.innerWidth;
 	canvas.height = main_buffer.height = transition_buffer.height = H = window.innerHeight;
 	min_length = W < H ?  W : H;
-	CELL_SIZE = min_length * .05;
+	CELL_SIZE = min_length * .07;
 	hcs = CELL_SIZE / 2;
 	TEXT_FONT_SIZE = min_length * .1;
 	COLS = W / CELL_SIZE | 0;
