@@ -3,7 +3,7 @@ function init_config () {
 	SC_LOAD = 1;
 	SC_GAME = 2;
 	TRANS_DURATION = 1e3;
-	STEP_TIMER = 250;
+	STEP_TIMER = 200;
 	LEFT = Math.PI;
 	RIGHT = 0;
 	UP = Math.PI * 3 / 2;
@@ -47,17 +47,16 @@ function init_config () {
 
 	canvas = document.getElementById('CANVAS');
 	main_buffer = canvas.cloneNode();
+	mobiles_buffer = canvas.cloneNode();
 	transition_buffer = canvas.cloneNode();
 	real_ctx = canvas.getContext('2d');
 	buf_ctx = main_buffer.getContext('2d');
+	mob_ctx = mobiles_buffer.getContext('2d');
 	trans_ctx = transition_buffer.getContext('2d');
 	current_sc = SC_LOAD;
 	//next_sc = SC_GAME;
 	is_transition = false;
 	time_2_transition = 0;
-	delta_time = 1;
-	time = 0;
-	old_timestamp = 0;
 	turn_nb = 0;
 	score = 0;
 	current_hp = HP_MAX;
@@ -76,8 +75,8 @@ function init_config () {
 
 function set_size () {
 
-	canvas.width = main_buffer.width = transition_buffer.width = W = window.innerWidth;
-	canvas.height = main_buffer.height = transition_buffer.height = H = window.innerHeight;
+	canvas.width = main_buffer.width = mobiles_buffer.width = transition_buffer.width = W = window.innerWidth;
+	canvas.height = main_buffer.height = mobiles_buffer.height = transition_buffer.height = H = window.innerHeight;
 	min_length = W < H ?  W : H;
 	CELL_SIZE = min_length * .07;
 	hcs = CELL_SIZE / 2;
@@ -94,6 +93,7 @@ function set_render_settings () {
 	buf_ctx.textAlign = 'center';
 	buf_ctx.textBaseline = 'top';
 	buf_ctx.shadowColor = "#f33";
+	//buf_ctx.globalAlpha = .5;
 	text_font = TEXT_FONT_SIZE + "px Deutsch";
 }
 
@@ -121,9 +121,6 @@ function set_sprites () {
 
 	for (var i=data_list.spritesheets.mobiles.spritesheets.length*4; i--;) {
 
-	console.log('i=',i,'char=',data_list.spritesheets.mobiles.spritesheets[i/4|0])
-	console.log('r=',(i/(data_list.spritesheets.mobiles.COLS/2)|0))
-
 		sprites_src_box.mobiles[MAP_MOBILES_I[data_list.spritesheets.mobiles.spritesheets[i/4|0]+'_'+['left','right','up','down'][i%4]]|0] = new Uint16Array([
 			(i%(data_list.spritesheets.mobiles.COLS/2)) * 2 * spt_mobile_w,
 			(i/(data_list.spritesheets.mobiles.COLS/2)|0) * spt_mobile_h,
@@ -138,9 +135,25 @@ function set_sprites () {
 
 function fill_maps () {
 
-	for (var i=CELLS_NB; i--;) {
-		map_statics[i] = MAP_STATICS_I.empty;
-		map_golds[i] = 1;
-	}
 	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.player_down;
+	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.gobelin_down;
+	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.golem_down;
+	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.archer_down;
+
+	map_statics[dtMath.rnd255()/255*CELLS_NB|0] = MAP_STATICS_I.weapon_sword;
+	map_statics[dtMath.rnd255()/255*CELLS_NB|0] = MAP_STATICS_I.weapon_mace;
+	map_statics[dtMath.rnd255()/255*CELLS_NB|0] = MAP_STATICS_I.weapon_fire_ball;
+	map_statics[dtMath.rnd255()/255*CELLS_NB|0] = MAP_STATICS_I.trap;
+	map_statics[dtMath.rnd255()/255*CELLS_NB|0] = MAP_STATICS_I.trap;
+	map_statics[dtMath.rnd255()/255*CELLS_NB|0] = MAP_STATICS_I.trap;
+
+	for (var i=CELLS_NB; i--;) {
+
+		if (!map_statics[i]) {
+			map_statics[i] = MAP_STATICS_I.empty;
+		}
+		if (map_statics[i] != MAP_STATICS_I.weapon_sword && map_statics[i] != MAP_STATICS_I.weapon_mace && map_statics[i] != MAP_STATICS_I.weapon_fire_ball) {
+			map_golds[i] = 1;
+		}
+	}
 }
