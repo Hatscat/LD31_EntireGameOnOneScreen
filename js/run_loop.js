@@ -4,7 +4,7 @@ function loop (t) {
 	var elapsed_time = time - old_timestamp;
 	old_timestamp = time;
 	delta_time = elapsed_time * .06; // 60 fps
-
+	tmp_map_mobiles = new Uint8Array(map_mobiles_buf.slice(0));
 	var last_turn_nb = turn_nb;
 	turn_nb = time/STEP_TIMER | 0;
 
@@ -20,8 +20,8 @@ function loop (t) {
 				if (turn_nb > last_turn_nb) {
 
 					//console.log('update')
-					if (map_mobiles[i]) {
-						update_mobile(i, map_mobiles[i]);
+					if (tmp_map_mobiles[i]) {
+						update_mobile(i, tmp_map_mobiles[i]);
 					}
 				}
 
@@ -50,10 +50,31 @@ function loop (t) {
 	requestAnimationFrame(loop);
 }
 
-
 function update_mobile (cell, mobile) {
-
-
+	//map_mobiles map_static map_gold
+	if (!map_mobiles[cell])
+		return ;
+	//console.log("cell :" + cell + ", coord :" + get_xy(cell) + ", type :" + mobile);
+	for (var i = 4 ; i--;)
+		switch (mobile)
+		{
+			case MAP_MOBILES_I["player_" + ["left", "right", "up", "down"][i]]:
+				update_player(cell, mobile);
+				return ;
+			break;
+			case MAP_MOBILES_I["gobelin_" + ["left", "right", "up", "down"][i]]:
+				update_gobelin(cell, mobile);
+				return ;
+			break;
+			case MAP_MOBILES_I["archer_" + ["left", "right", "up", "down"][i]]:
+				//update_archer(cell, mobile);
+				return ;
+			break;
+			case MAP_MOBILES_I["golem_" + ["left", "right", "up", "down"][i]]:
+				//update_golem(cell, mobile);
+				return ;
+			break;
+		}
 	// move,
 	// logic,
 	// collisions,
@@ -79,7 +100,7 @@ function normalize (dX, dY) {
 }
 
 function get_xy (c) {
-	return [c%COLS*CELL_SIZE, (c/COLS|0)*CELL_SIZE];
+	return [c%COLS, (c/COLS|0)];
 }
 
 function get_cell_from_xy (xy) {

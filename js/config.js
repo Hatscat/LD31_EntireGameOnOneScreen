@@ -24,8 +24,8 @@ function init_config () {
 	};
 
 	MAP_STATICS_I = {
-		wall: 0,
-		empty: 1,
+		wall: 1,
+		empty: 2,
 		trap: 3,
 		weapon_sword: 4,
 		weapon_mace: 5,
@@ -63,11 +63,13 @@ function init_config () {
 	current_hp = HP_MAX;
 	current_weapon = null;
 	inputs = new Uint8Array(0xFF);
+	map_mobiles_buf = new ArrayBuffer(0xFFF);
+	map_mobiles = new Uint8Array(map_mobiles_buf);
 	map_statics = new Uint8Array(0xFFF);
 	map_golds = new Uint8Array(0xFFF);
-	map_mobiles = new Uint8Array(0xFFF);
+	map_path = new Uint8Array(0xFFF);
 	dtMath = DirtyMath(window, null, new ArrayBuffer(4e5));
-
+	dtMath.init();
 	set_size();
 	fill_maps();
 }
