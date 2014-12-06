@@ -27,7 +27,7 @@ function update_archer(cell, mobile)
 			map_mobiles[cell] = 0;
 			map_mobiles[cell - 1] = MAP_MOBILES_I.gobelin_left;
 		}	
-		if (cell % COLS < COLS && map_path[cell + 1] < dist)
+		if (cell + 1 < COLS && map_path[cell + 1] < dist)
 		{
 			map_mobiles[cell] = 0;
 			map_mobiles[cell + 1] = MAP_MOBILES_I.gobelin_right;
@@ -59,17 +59,17 @@ function update_gobelin(cell, mobile)
 		map_mobiles[cell] = 0;
 		map_mobiles[cell - 1] = MAP_MOBILES_I.gobelin_left;
 	}
-	if (cell % COLS < COLS && map_path[cell + 1] < dist)
+	else if ((cell + 1) % COLS && map_path[cell + 1] < dist)
 	{
 		map_mobiles[cell] = 0;
 		map_mobiles[cell + 1] = MAP_MOBILES_I.gobelin_right;
 	}
-	if (cell > COLS && map_path[cell - COLS] < dist)
+	else if (cell > COLS && map_path[cell - COLS] < dist)
 	{
 		map_mobiles[cell] = 0;
 		map_mobiles[cell - COLS] = MAP_MOBILES_I.gobelin_up;
 	}
-	if (cell < CELLS_NB - COLS && map_path[cell + COLS] < dist)
+	else if (cell < CELLS_NB - COLS && map_path[cell + COLS] < dist)
 	{
 		map_mobiles[cell] = 0;
 		map_mobiles[cell + COLS] = MAP_MOBILES_I.gobelin_down;
@@ -89,26 +89,22 @@ function update_player(cell, mobile)
 		attack: new Uint8Array([32, 88, 67]) // space, x, c
 	};
 	*/
-	if (is_key_down("left"))
-		if (cell % COLS && !map_mobiles[cell - 1])
+	if (is_key_down("left") && cell % COLS && !map_mobiles[cell - 1])
 		{
 			map_mobiles[cell] = 0;
 			map_mobiles[cell - 1] = MAP_MOBILES_I.player_left;
 		}
-	if (is_key_down("right"))
-		if (cell % COLS < COLS && !map_mobiles[cell + 1])
+	else if (is_key_down("right") && (cell + 1) % COLS && !map_mobiles[cell + 1])
 		{
 			map_mobiles[cell] = 0;
 			map_mobiles[cell + 1] = MAP_MOBILES_I.player_right;
 		}
-	if (is_key_down("up"))
-		if (cell > COLS && !map_mobiles[cell - COLS])
+	else if (is_key_down("up") && cell > COLS && !map_mobiles[cell - COLS])
 		{
 			map_mobiles[cell] = 0;
 			map_mobiles[cell - COLS] = MAP_MOBILES_I.player_up;
 		}
-	if (is_key_down("down"))
-		if (cell < CELLS_NB - COLS && !map_mobiles[cell + COLS])
+	else if (is_key_down("down") && cell < CELLS_NB - COLS && !map_mobiles[cell + COLS])
 		{
 			map_mobiles[cell] = 0;
 			map_mobiles[cell + COLS] = MAP_MOBILES_I.player_down;
