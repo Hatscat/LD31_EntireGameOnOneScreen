@@ -1,8 +1,12 @@
 {
 	"img": [
 		{
-			"name": "spacecraft",
-			"url": "img/spacecraft.png"
+			"name": "statics",
+			"url": "img/map_tileset.jpg"
+		},
+		{
+			"name": "mobiles",
+			"url": "img/mobiles_tilesest.png"
 		}
 	],	
 	"audio": [
@@ -10,5 +14,34 @@
 			"name": "adventua",
 			"url": "audio/adventua-orchestral.mp3"
 		}
-	]
+	],
+	"spritesheets": {
+
+		"statics": {
+			"COLS": 3,
+			"ROWS": 2,
+			"sprites": [
+				"wall",
+				"empty",
+				"trap",
+				"weapon_sword",
+				"weapon_mace",
+				"weapon_fire_ball"
+			]
+		},
+		"mobiles": {
+			"COLS": 8,
+			"ROWS": 8,
+			"spritesheets": [
+				"player",
+				"gobelin",
+				"golem",
+				"archer",
+				"sword",
+				"mace",
+				"fire_ball",
+				"arrow"
+			]
+		}
+	}
 }
