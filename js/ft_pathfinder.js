@@ -4,7 +4,7 @@ function r_gen_map_path_r(cell, dist)
 	if (dist >= map_path[cell])
 		return ;
 	map_path[cell] = dist;
-	if (cell % COLS < COLS)
+	if ((cell + 1 ) % COLS)
 		r_gen_map_path_r(cell + 1 , dist + 1);
 	if (cell > COLS)
 		r_gen_map_path_u(cell - COLS , dist + 1);
@@ -32,7 +32,7 @@ function r_gen_map_path_u(cell, dist)
 	map_path[cell] = dist;
 	if (cell % COLS)
 		r_gen_map_path_l(cell - 1 , dist + 1);
-	if (cell % COLS < COLS)
+	if ((cell + 1 ) % COLS)
 		r_gen_map_path_r(cell + 1 , dist + 1);
 	if (cell > COLS)
 		r_gen_map_path_u(cell - COLS , dist + 1);
@@ -45,7 +45,7 @@ function r_gen_map_path_d(cell, dist)
 	map_path[cell] = dist;
 	if (cell % COLS)
 		r_gen_map_path_l(cell - 1 , dist + 1);
-	if (cell % COLS < COLS)
+	if ((cell + 1 ) % COLS)
 		r_gen_map_path_r(cell + 1 , dist + 1);
 	if (cell < CELLS_NB - COLS)
 		r_gen_map_path_d(cell + COLS , dist + 1);
@@ -60,7 +60,7 @@ function gen_map_path(cell)
 	map_path[cell] = 0;
 	if (cell % COLS)
 		r_gen_map_path_l(cell - 1 , 1);
-	if (cell % COLS < COLS)
+	if ((cell + 1 ) % COLS)
 		r_gen_map_path_r(cell + 1 , 1);
 	if (cell > COLS)
 		r_gen_map_path_u(cell - COLS , 1);

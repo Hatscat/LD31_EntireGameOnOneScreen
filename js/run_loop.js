@@ -67,11 +67,27 @@ function update_mobile (cell, mobile) {
 				return ;
 			break;
 			case MAP_MOBILES_I["archer_" + ["left", "right", "up", "down"][i]]:
-				//update_archer(cell, mobile);
+				update_archer(cell, mobile);
 				return ;
 			break;
 			case MAP_MOBILES_I["golem_" + ["left", "right", "up", "down"][i]]:
+				update_golem(cell, mobile);
+				return ;
+			break;
+			case MAP_MOBILES_I["sword_" + ["left", "right", "up", "down"][i]]:
 				//update_golem(cell, mobile);
+				return ;
+			break;
+			case MAP_MOBILES_I["mace_" + ["left", "right", "up", "down"][i]]:
+				//update_golem(cell, mobile);
+				return ;
+			break;
+			case MAP_MOBILES_I["fire_ball_" + ["left", "right", "up", "down"][i]]:
+				update_fire_ball(cell, mobile);
+				return ;
+			break;
+			case MAP_MOBILES_I["arrow_" + ["left", "right", "up", "down"][i]]:
+				update_arrow(cell, mobile);
 				return ;
 			break;
 		}
