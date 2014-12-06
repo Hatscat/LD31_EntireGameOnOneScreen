@@ -44,6 +44,8 @@ function loaded_content () {
 	if (++loaded_data_nb >= data_nb_2_load) {
 
 		console.log('load complete: ', loaded_data_nb+'/'+data_nb_2_load);
+
+		set_sprites();
 		change_sc(SC_GAME);
 	}
 }

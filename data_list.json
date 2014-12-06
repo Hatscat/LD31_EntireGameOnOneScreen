@@ -7,6 +7,10 @@
 		{
 			"name": "mobiles",
 			"url": "img/mobiles_tilesest.png"
+		},
+		{
+			"name": "gold",
+			"url": "img/gold.png"
 		}
 	],	
 	"audio": [

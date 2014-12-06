@@ -5,15 +5,25 @@ function draw_static (cell, static) {
 
 	player_pos = get_xy(player.cell);
 	buf_ctx.fillRect(player_pos[0], player_pos[1]);*/
+	var xy = get_xy(cell);
+
+	buf_ctx.drawImage(img.statics, sprites_src_box.statics[static][0], sprites_src_box.statics[static][1], sprites_src_box.statics[static][2], sprites_src_box.statics[static][3], xy[0], xy[1], CELL_SIZE, CELL_SIZE);
+}
+
+function draw_gold (cell) {
+	
+	var xy = get_xy(cell);
+
+	buf_ctx.drawImage(img.gold, sprites_src_box.gold[0], sprites_src_box.gold[1], sprites_src_box.gold[2], sprites_src_box.gold[3], xy[0]*CELL_SIZE, xy[1]*CELL_SIZE, CELL_SIZE, CELL_SIZE);
 }
 
 function draw_mobile (cell, mobile) {
 
+	var xy = get_xy(cell);
+
+	buf_ctx.drawImage(img.mobiles, sprites_src_box.mobiles[mobile][0], sprites_src_box.mobiles[mobile][1], sprites_src_box.mobiles[mobile][2], sprites_src_box.mobiles[mobile][3], xy[0], xy[1], CELL_SIZE, CELL_SIZE);
 }
 
-function draw_gold (cell) {
-
-}
 
 function draw_sc_load () {
 
