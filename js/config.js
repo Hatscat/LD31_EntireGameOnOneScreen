@@ -104,10 +104,10 @@ function set_sprites () {
 		mobiles: []
 	};
 
-	var spt_static_w = img.statics.width / data_list.spritesheets.statics.COLS | 0;
-	var spt_static_h = img.statics.height / data_list.spritesheets.statics.ROWS | 0;
-	var spt_mobile_w = img.mobiles.width / data_list.spritesheets.mobiles.COLS | 0;
-	var spt_mobile_h = img.mobiles.height / data_list.spritesheets.mobiles.ROWS | 0;
+	var spt_static_w = img.statics.width / data_list.spritesheets.statics.COLS;
+	var spt_static_h = img.statics.height / data_list.spritesheets.statics.ROWS;
+	var spt_mobile_w = img.mobiles.width / data_list.spritesheets.mobiles.COLS;
+	var spt_mobile_h = img.mobiles.height / data_list.spritesheets.mobiles.ROWS;
 
 	for (var i=data_list.spritesheets.statics.sprites.length; i--;) {
 
@@ -119,19 +119,19 @@ function set_sprites () {
 		]);
 	}
 
-
 	for (var i=data_list.spritesheets.mobiles.spritesheets.length*4; i--;) {
+
+	console.log('i=',i,'char=',data_list.spritesheets.mobiles.spritesheets[i/4|0])
+	console.log('r=',(i/(data_list.spritesheets.mobiles.COLS/2)|0))
 
 		sprites_src_box.mobiles[MAP_MOBILES_I[data_list.spritesheets.mobiles.spritesheets[i/4|0]+'_'+['left','right','up','down'][i%4]]|0] = new Uint16Array([
 			(i%(data_list.spritesheets.mobiles.COLS/2)) * 2 * spt_mobile_w,
-			(i/data_list.spritesheets.mobiles.COLS/2|0) * spt_mobile_h,
+			(i/(data_list.spritesheets.mobiles.COLS/2)|0) * spt_mobile_h,
 			spt_mobile_w,
 			spt_mobile_h,
 			(i%(data_list.spritesheets.mobiles.COLS/2)*2+1) * spt_mobile_w
 		]);
 	}
-
-
 
 	sprites_src_box.gold = new Uint8Array([0, 0, img.gold.width, img.gold.height]);
 }

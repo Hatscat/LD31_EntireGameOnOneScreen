@@ -89,7 +89,7 @@ function update_archer(cell, mobile)
 		{
 			map_mobiles[cell] = 0;
 			map_mobiles[cell - 1] = MAP_MOBILES_I.archer_left;
-		}	
+		}
 		else if ((cell + 1) % COLS && map_path[cell + 1] < dist)
 		{
 			map_mobiles[cell] = 0;
@@ -164,6 +164,18 @@ function update_gobelin(cell, mobile)
 function update_player(cell, mobile)
 {
 	gen_map_path(cell);
+<<<<<<< HEAD
+=======
+	/*
+	INPUT_KEYCODES_I = {
+		left: new Uint8Array([37, 81, 65]), // left arrow, q, a
+		right: new Uint8Array([39, 68]), // right arrow, d
+		up: new Uint8Array([38, 90, 87]), // up arrow, z, w
+		down: new Uint8Array([40, 83]), // down arrow, s
+		attack: new Uint8Array([32, 88, 67]) // space, x, c
+	};
+	*/
+>>>>>>> origin/master
 	if (is_key_down("left") && cell % COLS && !map_mobiles[cell - 1])
 		{
 			map_mobiles[cell] = 0;
