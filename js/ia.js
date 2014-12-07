@@ -92,13 +92,13 @@ function update_player(cell, mobile)
 			map_mobiles[cell %= COLS] = MAP_MOBILES_I.player_down;
 		else
 			map_mobiles[(cell += COLS)] = MAP_MOBILES_I.player_down;
-	}/*
+	}
 	else if ((res = move_dir(cell, mobile)) < 0)
 	{
 		res = -res;
 		res = (res > 2 ? ((res - 3) * 2 - 1) * COLS : ((res - 1) * 2 - 1));
 		cell += res;
-	}*/
+	}
 
 	if (map_collectibles[cell] != MAP_COLLECTIBLES_I.empty)
 	{
@@ -152,7 +152,7 @@ function update_player(cell, mobile)
 
 	}
 }
-/*
+
 function move_dir(cell, mobile)
 {
 	var dir = (mobile - 1) % 4;
@@ -160,64 +160,52 @@ function move_dir(cell, mobile)
 	switch (dir)
 	{
 		case 0: // left
-			if (check_statics_collision(cell - 1, 0))
+			if (check_statics_collision(cell - 1, 0) && !map_mobiles[cell - 1])
 			{
-				if (!map_mobiles[cell - 1])
-				{
-					map_mobiles[cell] = 0;
-					map_mobiles[cell - 1] = mobile;
-					return (-1);
-				}
+				map_mobiles[cell] = 0;
+				if (!check_screen_collision(cell - 1, 0))
+					map_mobiles[cell += COLS - 1] = MAP_MOBILES_I.player_left;
 				else
-					return (map_mobiles[cell - 1]);
+					map_mobiles[(cell -= 1)] = mobile;
 			}
 			return (0);
 		break ;
 		case 1: // right
-			if (check_statics_collision(cell + 1, 1))
+			if (check_statics_collision(cell + 1, 1) && !map_mobiles[cell + 1])
 			{
-				if (!map_mobiles[cell + 1])
-				{
-					map_mobiles[cell] = 0;
-					map_mobiles[cell + 1] = mobile;
-					return (-2);
-				}
+				map_mobiles[cell] = 0;
+				if (!check_screen_collision(cell + 1, 1))
+					map_mobiles[(cell -= COLS - 1)] = mobile;
 				else
-					return (map_mobiles[cell + 1]);
+					map_mobiles[(cell += 1)] = mobile;
 			}
 			return (0);
 		break ;
 		case 2: // up
-			if (check_statics_collision(cell - COLS, 2))
+			if (check_statics_collision(cell - COLS, 2) && !map_mobiles[cell - COLS])
 			{
-				if (!map_mobiles[cell - COLS])
-				{
 				map_mobiles[cell] = 0;
-				map_mobiles[cell - COLS] = mobile;
-					return (-3);
-				}
+				if (!check_screen_collision(cell - COLS, 2))
+					map_mobiles[(cell += COLS * (ROWS - 1))] = mobile;
 				else
-					return (map_mobiles[cell - COLS]);
+					map_mobiles[(cell -= COLS)] = mobile;
 			}
 			return (0);
 		break ;
 		case 3: // down
-			if (check_statics_collision(cell + COLS, 3))
+			if (check_statics_collision(cell + COLS, 3) && !map_mobiles[cell + COLS])
 			{
-				if (!map_mobiles[cell + COLS])
-				{
 				map_mobiles[cell] = 0;
-				map_mobiles[cell + COLS] = mobile;
-					return (-4);
-				}
+				if (!check_screen_collision(cell + COLS, 3))
+					map_mobiles[cell %= COLS] = mobile;
 				else
-					return (map_mobiles[cell + COLS]);
+					map_mobiles[(cell += COLS)] = mobile;
 			}
 			return (0);
 		break ;
 	}
 }
-*/
+
 function update_arrow(cell, mobile)
 {
 	move_dir(cell, mobile);
