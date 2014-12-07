@@ -170,7 +170,14 @@ function fill_maps () {
 		if (!map_statics[i]) {
 			map_statics[i] = MAP_STATICS_I.empty;
 		}
-		if (!map_collectibles[i]) {
+	}
+}
+
+function fill_gold () {
+
+	for (var i=CELLS_NB; i--;) {
+
+		if (!map_collectibles[i] && map_statics[i] == MAP_STATICS_I.empty) {
 			map_collectibles[i] = MAP_COLLECTIBLES_I.gold;
 		}
 	}
