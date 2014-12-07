@@ -1,5 +1,5 @@
-function loop (t) {
-
+function loop (t)
+{
 	time = t || 0;
 	var last_turn_nb = turn_nb;
 	turn_nb = time/STEP_TIMER | 0;
@@ -44,6 +44,13 @@ function loop (t) {
 					var last_xy = map_mobiles[i]!=tmp_map_mobiles[i] && map_mobiles[i]-dir==tmp_map_mobiles[i-d]-old_dir ? get_xy(i-d) : xy;
 
 					draw_mobile(xy, last_xy, step_ratio, map_mobiles[i]);
+				}
+			}
+			if (turn_nb > last_turn_nb) {
+			for (i in INPUT_KEYCODES_I)
+				for (ii in INPUT_KEYCODES_I[i])
+				{
+					inputs[INPUT_KEYCODES_I[i][ii]] = inputs_buf[INPUT_KEYCODES_I[i][ii]];
 				}
 			}
 		break;

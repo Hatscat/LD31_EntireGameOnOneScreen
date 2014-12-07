@@ -14,20 +14,60 @@ function move_dir(cell, mobile)
 	switch (dir)
 	{
 		case 0: // left
-			map_mobiles[cell] = 0;
-			map_mobiles[cell - 1] = mobile;
+			if (cell % COLS)
+			{
+				if (!map_mobiles[cell - 1])
+				{
+					map_mobiles[cell] = 0;
+					map_mobiles[cell - 1] = mobile;
+					return (-1);
+				}
+				else
+					return (map_mobiles[cell - 1]);
+			}
+			return (0);
 		break ;
 		case 1: // right
-			map_mobiles[cell] = 0;
-			map_mobiles[cell + 1] = mobile;
+			if ((cell + 1) % COLS)
+			{
+				if (!map_mobiles[cell + 1])
+				{
+					map_mobiles[cell] = 0;
+					map_mobiles[cell + 1] = mobile;
+					return (-2);
+				}
+				else
+					return (map_mobiles[cell + 1]);
+			}
+			return (0);
 		break ;
 		case 2: // up
-			map_mobiles[cell] = 0;
-			map_mobiles[cell + COLS] = mobile;
+			if (cell >= COLS)
+			{
+				if (!map_mobiles[cell - COLS])
+				{
+				map_mobiles[cell] = 0;
+				map_mobiles[cell - COLS] = mobile;
+					return (-3);
+				}
+				else
+					return (map_mobiles[cell - COLS]);
+			}
+			return (0);
 		break ;
 		case 3: // down
-			map_mobiles[cell] = 0;
-			map_mobiles[cell - COLS] = mobile;
+			if (cell < CELLS_NB - COLS)
+			{
+				if (!map_mobiles[cell + COLS])
+				{
+				map_mobiles[cell] = 0;
+				map_mobiles[cell + COLS] = mobile;
+					return (-4);
+				}
+				else
+					return (map_mobiles[cell + COLS]);
+			}
+			return (0);
 		break ;
 	}
 }
@@ -57,17 +97,17 @@ function is_in_sight(cell, dist)
 			if (!map_path[++cell])
 				return (2);
 	}
-	else if (cell > COLS && map_path[cell - COLS] < dist)
+	else if (cell >= COLS && map_path[cell - COLS] < dist)
 	{
-		while (cell > COLS && map_path[cell - COLS] < dist)
+		while (cell >= COLS && map_path[cell - COLS] < dist)
 			if (!map_path[(cell -= COLS)])
-				return (4);
+				return (3);
 	}
 	else if (cell < CELLS_NB - COLS && map_path[cell + COLS] < dist)
 	{
 		while (cell < CELLS_NB - COLS && map_path[cell + COLS] < dist)
 			if (!map_path[(cell += COLS)])
-				return (3);
+				return (4);
 	}
 	return (0);
 }
@@ -79,8 +119,7 @@ function update_archer(cell, mobile)
 
 	if (dist < 5 && (dir = is_in_sight(cell, dist)))
 	{
-		console.log("tsfiww" + dir);
-		var mv = (dir > 2 ? ((dir - 3) * 2 - 1) * -COLS : ((dir - 1) * 2 - 1));
+		var mv = (dir > 2 ? ((dir - 3) * 2 - 1) * COLS : ((dir - 1) * 2 - 1));
 		map_mobiles[cell + mv] = MAP_MOBILES_I["arrow_" + ["left", "right", "up", "down"][dir - 1]];
 	}
 	else
@@ -95,7 +134,7 @@ function update_archer(cell, mobile)
 			map_mobiles[cell] = 0;
 			map_mobiles[cell + 1] = MAP_MOBILES_I.archer_right;
 		}
-		else if (cell > COLS && map_path[cell - COLS] < dist)
+		else if (cell >= COLS && map_path[cell - COLS] < dist)
 		{
 			map_mobiles[cell] = 0;
 			map_mobiles[cell - COLS] = MAP_MOBILES_I.archer_up;
@@ -122,7 +161,7 @@ function update_golem(cell, mobile)
 		map_mobiles[cell] = 0;
 		map_mobiles[cell + 1] = MAP_MOBILES_I.golem_right;
 	}
-	else if (cell > COLS && map_path[cell - COLS] < dist)
+	else if (cell >= COLS && map_path[cell - COLS] < dist)
 	{
 		map_mobiles[cell] = 0;
 		map_mobiles[cell - COLS] = MAP_MOBILES_I.golem_up;
@@ -148,7 +187,7 @@ function update_gobelin(cell, mobile)
 		map_mobiles[cell] = 0;
 		map_mobiles[cell + 1] = MAP_MOBILES_I.gobelin_right;
 	}
-	else if (cell > COLS && map_path[cell - COLS] < dist)
+	else if (cell >= COLS && map_path[cell - COLS] < dist)
 	{
 		map_mobiles[cell] = 0;
 		map_mobiles[cell - COLS] = MAP_MOBILES_I.gobelin_up;
@@ -163,34 +202,43 @@ function update_gobelin(cell, mobile)
 
 function update_player(cell, mobile)
 {
+	var res;
+
 	gen_map_path(cell);
 
 	if (is_key_down("left") && cell % COLS && !map_mobiles[cell - 1])
-		{
-			map_mobiles[cell] = 0;
-			map_mobiles[cell - 1] = MAP_MOBILES_I.player_left;
-		}
+	{
+		map_mobiles[cell] = 0;
+		map_mobiles[(cell -= 1)] = MAP_MOBILES_I.player_left;
+	}
 	else if (is_key_down("right") && (cell + 1) % COLS && !map_mobiles[cell + 1])
-		{
-			map_mobiles[cell] = 0;
-			map_mobiles[cell + 1] = MAP_MOBILES_I.player_right;
-		}
-	else if (is_key_down("up") && cell > COLS && !map_mobiles[cell - COLS])
-		{
-			map_mobiles[cell] = 0;
-			map_mobiles[cell - COLS] = MAP_MOBILES_I.player_up;
-		}
+	{
+		map_mobiles[cell] = 0;
+		map_mobiles[(cell += 1)] = MAP_MOBILES_I.player_right;
+	}
+	else if (is_key_down("up") && cell >= COLS && !map_mobiles[cell - COLS])
+	{
+		map_mobiles[cell] = 0;
+		map_mobiles[(cell -= COLS)] = MAP_MOBILES_I.player_up;
+	}
 	else if (is_key_down("down") && cell < CELLS_NB - COLS && !map_mobiles[cell + COLS])
-		{
-			map_mobiles[cell] = 0;
-			map_mobiles[cell + COLS] = MAP_MOBILES_I.player_down;
-		}
+	{
+		map_mobiles[cell] = 0;
+		map_mobiles[(cell += COLS)] = MAP_MOBILES_I.player_down;
+	}
+	else if ((res = move_dir(cell, mobile)) < 0)
+	{
+		res = -res;
+		res = (res > 2 ? ((res - 3) * 2 - 1) * COLS : ((res - 1) * 2 - 1));
+		cell += res;
+	}
 	if (is_key_down("attack"))
 	{
 		console.log("Echec critique, pliz do ALT-F4");
-		map_mobiles[dtMath.rnd255()] = MAP_MOBILES_I.archer_up;
+		//map_mobiles[dtMath.rnd255()] = MAP_MOBILES_I.archer_up;
 		var dir = (mobile - 1) % 4 + 1;
-		var mv = (dir > 2 ? ((dir - 3) * 2 - 1) * -COLS : ((dir - 1) * 2 - 1));
+		var mv = (dir > 2 ? ((dir - 3) * 2 - 1) * COLS : ((dir - 1) * 2 - 1));
+		console.log("cell :" + cell + " ; " + mv);
 		map_mobiles[cell + mv] = MAP_MOBILES_I["fire_ball_" + ["left", "right", "up", "down"][dir - 1]];
 	}
 }
