@@ -26,7 +26,7 @@ function draw_collectibles (xy, collectible) {
 function draw_mobile (xy, last_xy, step_ratio, mobile) {
 
 	mob_ctx.drawImage(img.mobiles,
-		sprites_src_box.mobiles[mobile][turn_nb%2?4:0],
+		sprites_src_box.mobiles[mobile][step_ratio>=.5?4:0], //turn_nb%2?4:0
 		sprites_src_box.mobiles[mobile][1],
 		sprites_src_box.mobiles[mobile][2],
 		sprites_src_box.mobiles[mobile][3],
