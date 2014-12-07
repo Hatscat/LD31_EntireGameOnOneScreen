@@ -68,6 +68,7 @@ function init_config () {
 	current_hp = HP_MAX;
 	current_weapon = null;
 	inputs = new Uint8Array(0xFF);
+	inputs_buf = new Uint8Array(0xFF);
 	map_mobiles_buf = new ArrayBuffer(0xFFF);
 	map_mobiles = new Uint8Array(map_mobiles_buf);
 	map_collectibles = new Uint8Array(0xFFF);
@@ -154,9 +155,10 @@ function set_sprites () {
 function fill_maps () {
 
 	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.player_down;
-	//map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.gobelin_down;
-	//map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.golem_down;
-	//map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.archer_down;
+
+	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.gobelin_down;
+	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.golem_down;
+	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.archer_down;
 
 	map_collectibles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_COLLECTIBLES_I.weapon_sword;
 	map_collectibles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_COLLECTIBLES_I.weapon_mace;
