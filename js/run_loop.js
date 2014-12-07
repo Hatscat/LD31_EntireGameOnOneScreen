@@ -3,13 +3,13 @@ function loop (t)
 	time = t || 0;
 	var last_turn_nb = turn_nb;
 	turn_nb = time/STEP_TIMER | 0;
+	var new_turn = turn_nb > last_turn_nb;
 
-	if (turn_nb > last_turn_nb) {
+	if (new_turn) {
 		tmp_map_mobiles = new Uint8Array(map_mobiles_buf.slice(0));
 		col_ctx.clearRect(0, 0, W, H);
 	}
 
-	buf_ctx.drawImage(statics_buffer, 0, 0);
 	mob_ctx.clearRect(0, 0, W, H);
 
 	switch (current_sc) {
@@ -22,15 +22,8 @@ function loop (t)
 
 				var xy = get_xy(i);
 
-				if (turn_nb > last_turn_nb) {
-					
-					if (map_collectibles[i]) {
-						draw_collectibles(xy, map_collectibles[i]);
-					}
-
-					if (tmp_map_mobiles[i]) {
-						update_mobile(i, tmp_map_mobiles[i], xy);
-					}
+				if (new_turn && map_collectibles[i]) {
+					draw_collectibles(xy, map_collectibles[i]);
 				}
 
 				if (map_mobiles[i]) {
@@ -42,8 +35,13 @@ function loop (t)
 
 					draw_mobile(xy, last_xy, step_ratio, map_mobiles[i]);
 				}
+
+				if (new_turn && tmp_map_mobiles[i]) {
+					update_mobile(i, tmp_map_mobiles[i], xy);
+				}
+
 			}
-			if (turn_nb > last_turn_nb) {
+			if (new_turn) {
 			for (i in INPUT_KEYCODES_I)
 				for (ii in INPUT_KEYCODES_I[i])
 				{
@@ -56,12 +54,11 @@ function loop (t)
 		break;
 	}
 
-
+	buf_ctx.drawImage(statics_buffer, 0, 0);
 	buf_ctx.drawImage(collectibles_buffer, 0, 0);
 	buf_ctx.drawImage(mobiles_buffer, 0, 0);
 
 	real_ctx.drawImage(main_buffer, 0, 0);
-	//real_ctx.drawImage(mobiles_buffer, 0, 0);
 	
 	if (is_transition) {
 		transition();
