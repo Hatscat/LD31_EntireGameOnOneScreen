@@ -92,11 +92,11 @@ function update_mobile (cell, mobile) {
 				return ;
 			break;
 			case MAP_MOBILES_I["sword_" + ["left", "right", "up", "down"][i]]:
-				//update_golem(cell, mobile);
+				update_sword(cell, mobile);
 				return ;
 			break;
 			case MAP_MOBILES_I["mace_" + ["left", "right", "up", "down"][i]]:
-				//update_golem(cell, mobile);
+				update_mace(cell, mobile);
 				return ;
 			break;
 			case MAP_MOBILES_I["fire_ball_" + ["left", "right", "up", "down"][i]]:

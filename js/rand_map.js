@@ -1,13 +1,10 @@
 
-function is_dead_end(cell)
-{
-}
-
 function r_rand_map(cell)
 {
 	var xy = get_xy(cell);
 	var posi = [];
 	var mv;
+	var count = 0;
 
 	if (map_statics[cell] != MAP_STATICS_I.in_build)
 		return ;
@@ -37,17 +34,39 @@ function r_rand_map(cell)
 			if (cell % COLS && map_statics[cell - 1] == MAP_STATICS_I.in_build)
 				map_statics[cell - 1] = MAP_STATICS_I.wall;
 		}
-		console.log();
-		r_rand_map(cell + mv);
+		r_rand_map(mv);
 		r_rand_map(cell);
+		return ;
 	}
+	// dead end
+	if (cell % COLS && map_statics[cell - 1] == MAP_STATICS_I.wall)
+		posi.push(cell - 1);
+	if ((cell + 1) % COLS && map_statics[cell + 1] == MAP_STATICS_I.wall)
+		posi.push(cell + 1);
+	if ((cell - COLS >= 0) && map_statics[cell - COLS] == MAP_STATICS_I.wall)
+		posi.push(cell - COLS);
+	if ((cell + COLS < CELLS_NB) && map_statics[cell + COLS] == MAP_STATICS_I.wall)
+		posi.push(cell + COLS);
+
+	if (cell % COLS && map_statics[cell - 1] == MAP_STATICS_I.empty)
+		count += 1;
+	if ((cell + 1) % COLS && map_statics[cell + 1] == MAP_STATICS_I.empty)
+		count += 1;
+	if ((cell - COLS >= 0) && map_statics[cell - COLS] == MAP_STATICS_I.empty)
+		count += 1;
+	if ((cell + COLS < CELLS_NB) && map_statics[cell + COLS] == MAP_STATICS_I.empty)
+		count += 1;
+	if (count < 2)
+	{
+		if (posi.length)
+		{
+			mv = posi[(Math.random() * posi.length)|0];
+			map_statics[mv] = MAP_STATICS_I.empty;
+		}
+	}
+
 }
-/*
-	map_statics[cell - 1] = MAP_STATICS_I.wall;
-	map_statics[cell + 1] = MAP_STATICS_I.wall;
-	map_statics[cell - COLS] = MAP_STATICS_I.wall;
-	map_statics[cell + COLS] = MAP_STATICS_I.wall;
-*/
+
 function rand_map()
 {
 	for (var i = CELLS_NB; i--;)
@@ -55,11 +74,9 @@ function rand_map()
 		map_statics[i] = MAP_STATICS_I.in_build;
 	}
 	r_rand_map(0);
-
 	for (var i = CELLS_NB; i--;)
 	{
 		if (map_statics[i] == MAP_STATICS_I.in_build)
-		map_statics[i] = MAP_STATICS_I.trap;
+			r_rand_map(i);
 	}
-	//map_statics
 }

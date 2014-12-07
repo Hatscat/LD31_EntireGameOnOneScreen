@@ -24,16 +24,17 @@ function init_config () {
 
 	MAP_STATICS_I = {
 		wall: 1,
-		empty: 2
+		empty: 2,
+		in_build: 7
 	};
 
 	MAP_COLLECTIBLES_I = {
 		gold: 1,
+		empty: 0,
 		trap: 3,
 		weapon_sword: 4,
 		weapon_mace: 5,
-		weapon_fire_ball: 6,
-		in_build: 7
+		weapon_fire_ball: 6
 	};
 
 	MAP_MOBILES_I = {};
