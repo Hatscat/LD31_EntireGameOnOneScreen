@@ -52,12 +52,14 @@ function init_config () {
 
 	canvas = document.getElementById('CANVAS');
 	main_buffer = canvas.cloneNode();
+	gui_buffer = canvas.cloneNode();
 	statics_buffer = canvas.cloneNode();
 	collectibles_buffer = canvas.cloneNode();
 	mobiles_buffer = canvas.cloneNode();
 	transition_buffer = canvas.cloneNode();
 	real_ctx = canvas.getContext('2d');
 	buf_ctx = main_buffer.getContext('2d');
+	gui_ctx = gui_buffer.getContext('2d');
 	stat_ctx = statics_buffer.getContext('2d');
 	col_ctx = collectibles_buffer.getContext('2d');
 	mob_ctx = mobiles_buffer.getContext('2d');
@@ -84,14 +86,21 @@ function init_config () {
 
 function set_size () {
 
-	canvas.width = main_buffer.width = statics_buffer.width = collectibles_buffer.width = mobiles_buffer.width = transition_buffer.width = W = window.innerWidth;
-	canvas.height = main_buffer.height = statics_buffer.height = collectibles_buffer.height = mobiles_buffer.height = transition_buffer.height = H = window.innerHeight;
+	W = window.innerWidth;
+	H = window.innerHeight;
 	min_length = W < H ?  W : H;
-	CELL_SIZE = min_length * .06;
+	CELL_SIZE = min_length * .1;//.06;
 	hcs = CELL_SIZE / 2;
-	TEXT_FONT_SIZE = min_length * .1;
+	header_h = CELL_SIZE * 2;
+	
+	transition_buffer.height = main_buffer.height = canvas.height = H;
+	gui_buffer.height = header_h;
+	statics_buffer.height = collectibles_buffer.height = mobiles_buffer.height = H-header_h;
+	canvas.width = main_buffer.width = gui_buffer.width = statics_buffer.width = collectibles_buffer.width = mobiles_buffer.width = transition_buffer.width = W;
+	
+	TEXT_FONT_SIZE = CELL_SIZE;
 	COLS = W / CELL_SIZE | 0;
-	ROWS = H / CELL_SIZE | 0;
+	ROWS = (H-header_h) / CELL_SIZE | 0;
 	CELLS_NB = COLS * ROWS;
 
 	set_render_settings();
@@ -99,11 +108,11 @@ function set_size () {
 
 function set_render_settings () {
 
-	buf_ctx.textAlign = 'center';
-	buf_ctx.textBaseline = 'top';
-	buf_ctx.shadowColor = "#f33";
+	gui_ctx.textAlign = 'center';
+	gui_ctx.textBaseline = 'top';
+	gui_ctx.shadowColor = "#f33";
+	gui_ctx.font = TEXT_FONT_SIZE + "px Deutsch";
 	//buf_ctx.globalAlpha = .5;
-	text_font = TEXT_FONT_SIZE + "px Deutsch";
 }
 
 function set_sprites () {
@@ -156,15 +165,6 @@ function set_sprites () {
 
 function fill_maps () {
 
-	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.player_down;
-
-	map_collectibles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_COLLECTIBLES_I.weapon_sword;
-	map_collectibles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_COLLECTIBLES_I.weapon_mace;
-	map_collectibles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_COLLECTIBLES_I.weapon_fire_ball;
-	map_collectibles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_COLLECTIBLES_I.trap;
-	map_collectibles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_COLLECTIBLES_I.trap;
-	map_collectibles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_COLLECTIBLES_I.trap;
-
 	for (var i=CELLS_NB; i--;) {
 
 		if (!map_statics[i]) {
@@ -173,7 +173,23 @@ function fill_maps () {
 	}
 }
 
-function fill_gold () {
+function fill_collectibles () {
+	
+	var rnd_pos = dtMath.rnd255()/255*CELLS_NB|0;
+
+	for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
+	map_mobiles[rnd_pos] = MAP_MOBILES_I.player_down;
+	for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty||map_collectibles[rnd_pos]||map_mobiles[rnd_pos]; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
+	map_collectibles[rnd_pos] = MAP_COLLECTIBLES_I.weapon_sword;
+	for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty||map_collectibles[rnd_pos]||map_mobiles[rnd_pos]; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
+	map_collectibles[rnd_pos] = MAP_COLLECTIBLES_I.weapon_mace;
+	for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty||map_collectibles[rnd_pos]||map_mobiles[rnd_pos]; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
+	map_collectibles[rnd_pos] = MAP_COLLECTIBLES_I.weapon_fire_ball;
+	
+	for (var i=5; i--;) {
+		for (rnd_pos=0; map_statics[rnd_pos]!=MAP_STATICS_I.empty||map_collectibles[rnd_pos]||map_mobiles[rnd_pos]; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
+		map_collectibles[rnd_pos] = MAP_COLLECTIBLES_I.trap;
+	}
 
 	for (var i=CELLS_NB; i--;) {
 

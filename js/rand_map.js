@@ -79,5 +79,5 @@ function rand_map()
 		if (map_statics[i] == MAP_STATICS_I.in_build)
 			r_rand_map(i);
 	}
-	fill_gold();
+	fill_collectibles();
 }

@@ -8,6 +8,25 @@ function loop (t)
 	if (new_turn) {
 		tmp_map_mobiles = new Uint8Array(map_mobiles_buf.slice(0));
 		col_ctx.clearRect(0, 0, W, H);
+		gui_ctx.fillStyle = '#675';
+		gui_ctx.fillRect(0, 0, W, header_h);
+		gui_ctx.fillStyle = '#000';
+		gui_ctx.fillText('Cake-Man', W/2, 0);
+
+		gui_ctx.fillText(current_hp?current_hp+'♥':'☠', W/4, CELL_SIZE);
+		gui_ctx.fillText(score+'◎', W/2, CELL_SIZE);
+			
+		if (current_weapon) {
+			gui_ctx.drawImage(img.collectibles,
+				sprites_src_box.collectibles[current_weapon][0],
+				sprites_src_box.collectibles[current_weapon][1],
+				sprites_src_box.collectibles[current_weapon][2],
+				sprites_src_box.collectibles[current_weapon][3],
+				W*3/4-hcs, CELL_SIZE, CELL_SIZE, CELL_SIZE);
+		} else {
+			gui_ctx.fillText('✌', W*3/4, CELL_SIZE);
+		}
+
 	}
 
 	mob_ctx.clearRect(0, 0, W, H);
@@ -54,9 +73,10 @@ function loop (t)
 		break;
 	}
 
-	buf_ctx.drawImage(statics_buffer, 0, 0);
-	buf_ctx.drawImage(collectibles_buffer, 0, 0);
-	buf_ctx.drawImage(mobiles_buffer, 0, 0);
+	buf_ctx.drawImage(statics_buffer, 0, header_h);
+	buf_ctx.drawImage(collectibles_buffer, 0, header_h);
+	buf_ctx.drawImage(mobiles_buffer, 0, header_h);
+	buf_ctx.drawImage(gui_buffer, 0, 0);
 
 	real_ctx.drawImage(main_buffer, 0, 0);
 	
