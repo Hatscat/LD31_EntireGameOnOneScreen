@@ -86,7 +86,7 @@ function set_size () {
 	canvas.width = main_buffer.width = statics_buffer.width = collectibles_buffer.width = mobiles_buffer.width = transition_buffer.width = W = window.innerWidth;
 	canvas.height = main_buffer.height = statics_buffer.height = collectibles_buffer.height = mobiles_buffer.height = transition_buffer.height = H = window.innerHeight;
 	min_length = W < H ?  W : H;
-	CELL_SIZE = min_length * .07;
+	CELL_SIZE = min_length * .06;
 	hcs = CELL_SIZE / 2;
 	TEXT_FONT_SIZE = min_length * .1;
 	COLS = W / CELL_SIZE | 0;
