@@ -3,7 +3,7 @@ function init_config () {
 	SC_LOAD = 1;
 	SC_GAME = 2;
 	TRANS_DURATION = 1e3;
-	STEP_TIMER = 200;
+	STEP_TIMER = 250;
 	LEFT = Math.PI;
 	RIGHT = 0;
 	UP = Math.PI * 3 / 2;
