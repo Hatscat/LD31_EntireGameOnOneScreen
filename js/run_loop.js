@@ -46,6 +46,13 @@ function loop (t) {
 					draw_mobile(xy, last_xy, step_ratio, map_mobiles[i]);
 				}
 			}
+			if (turn_nb > last_turn_nb) {
+			for (i in INPUT_KEYCODES_I)
+				for (ii in INPUT_KEYCODES_I[i])
+				{
+					inputs[INPUT_KEYCODES_I[i][ii]] = inputs_buf[INPUT_KEYCODES_I[i][ii]];
+				}
+			}
 		break;
 		case SC_LOAD:
 			draw_sc_load();
