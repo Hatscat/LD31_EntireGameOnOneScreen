@@ -11,6 +11,7 @@ function change_sc (sc) {
 
 	is_transition = true;
 	next_sc = sc;
+	draw_statics();
 	time_2_transition = time + TRANS_DURATION;
 }
 

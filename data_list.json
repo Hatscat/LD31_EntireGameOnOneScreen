@@ -2,15 +2,15 @@
 	"img": [
 		{
 			"name": "statics",
-			"url": "img/map_tileset.jpg"
+			"url": "img/statics_tileset.jpg"
+		},
+		{
+			"name": "collectibles",
+			"url": "img/collectibles_tileset.png"
 		},
 		{
 			"name": "mobiles",
-			"url": "img/mobiles_tilesest.png"
-		},
-		{
-			"name": "gold",
-			"url": "img/gold.png"
+			"url": "img/mobiles_tileset.png"
 		}
 	],	
 	"audio": [
@@ -22,11 +22,18 @@
 	"spritesheets": {
 
 		"statics": {
+			"COLS": 2,
+			"ROWS": 1,
+			"sprites": [
+				"wall",
+				"empty"
+			]
+		},
+		"collectibles": {
 			"COLS": 3,
 			"ROWS": 2,
 			"sprites": [
-				"wall",
-				"empty",
+				"gold",
 				"trap",
 				"weapon_sword",
 				"weapon_mace",
