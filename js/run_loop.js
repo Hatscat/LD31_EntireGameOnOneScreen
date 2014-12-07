@@ -6,16 +6,15 @@ function loop (t) {
 
 	if (turn_nb > last_turn_nb) {
 		tmp_map_mobiles = new Uint8Array(map_mobiles_buf.slice(0));
+		col_ctx.clearRect(0, 0, W, H);
 	}
 
+	buf_ctx.drawImage(statics_buffer, 0, 0);
 	mob_ctx.clearRect(0, 0, W, H);
 
 	switch (current_sc) {
 
 		case SC_GAME:
-
-			//buf_ctx.fillStyle = '#000';
-			//buf_ctx.fillRect(0, 0, W, H);
 
 			var step_ratio = time % STEP_TIMER / STEP_TIMER;
 
@@ -25,21 +24,19 @@ function loop (t) {
 
 				if (turn_nb > last_turn_nb) {
 					
+					if (map_collectibles[i]) {
+						draw_collectibles(xy, map_collectibles[i]);
+					}
+
 					if (tmp_map_mobiles[i]) {
 						update_mobile(i, tmp_map_mobiles[i], xy);
 					}
-				
-					draw_static(xy, map_statics[i]);
-
-					if (map_golds[i]) {
-						draw_gold(xy);
-					}
-
 				}
+
 				if (map_mobiles[i]) {
 
 					var dir = (map_mobiles[i]-1) % 4;
-					var d = dir<2 ? dir*2-1 : dir==2 ? -COLS: COLS;
+					var d = dir<2 ? dir*2-1 : dir==2 ? -COLS: COLS; // 0 = -1; 1 = 1; 2 = -COLS; 3 = COLS
 					var old_dir = (tmp_map_mobiles[i-d]-1) % 4;
 					var last_xy = map_mobiles[i]!=tmp_map_mobiles[i] && map_mobiles[i]-dir==tmp_map_mobiles[i-d]-old_dir ? get_xy(i-d) : xy;
 
@@ -52,8 +49,12 @@ function loop (t) {
 		break;
 	}
 
+
+	buf_ctx.drawImage(collectibles_buffer, 0, 0);
+	buf_ctx.drawImage(mobiles_buffer, 0, 0);
+
 	real_ctx.drawImage(main_buffer, 0, 0);
-	real_ctx.drawImage(mobiles_buffer, 0, 0);
+	//real_ctx.drawImage(mobiles_buffer, 0, 0);
 	
 	if (is_transition) {
 		transition();
