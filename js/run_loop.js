@@ -6,7 +6,10 @@ function loop (t)
 	var new_turn = turn_nb > last_turn_nb;
 
 	if (new_turn) {
+
 		tmp_map_mobiles = new Uint8Array(map_mobiles_buf.slice(0));
+		buf_ctx.fillStyle = '#000';
+		buf_ctx.fillRect(0, 0, W, H);
 		col_ctx.clearRect(0, 0, W, H);
 		gui_ctx.fillStyle = '#675';
 		gui_ctx.fillRect(0, 0, W, header_h);

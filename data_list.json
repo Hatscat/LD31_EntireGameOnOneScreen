@@ -15,8 +15,16 @@
 	],	
 	"audio": [
 		{
-			"name": "adventua",
+			"name": "bg_music",
 			"url": "audio/adventua-orchestral.mp3"
+		},
+		{
+			"name": "fire_ball",
+			"url": "audio/fire_ball.mp3"
+		},
+		{
+			"name": "hit_wall",
+			"url": "audio/hit_wall.mp3"
 		}
 	],
 	"spritesheets": {

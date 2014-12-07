@@ -18,7 +18,7 @@ function load_assets (cb) {
 		img[data_list.img[i].name] = load_image(data_list.img[i].url);
 	}
 	for (var i=data_list.audio.length; i--;) {
-		img[data_list.audio[i].name] = load_audio(data_list.audio[i].url);
+		audio[data_list.audio[i].name] = load_audio(data_list.audio[i].url);
 	}
 	cb();
 }
@@ -45,6 +45,8 @@ function loaded_content () {
 
 		console.log('load complete: ', loaded_data_nb+'/'+data_nb_2_load);
 
+		audio.bg_music.loop = true;
+		//audio.bg_music.play();
 		set_sprites();
 		change_sc(SC_GAME);
 	}

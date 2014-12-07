@@ -89,7 +89,7 @@ function set_size () {
 	W = window.innerWidth;
 	H = window.innerHeight;
 	min_length = W < H ?  W : H;
-	CELL_SIZE = min_length * .1;//.06;
+	CELL_SIZE = min_length * .06;//.06;
 	hcs = CELL_SIZE / 2;
 	header_h = CELL_SIZE * 2;
 	
@@ -112,7 +112,6 @@ function set_render_settings () {
 	gui_ctx.textBaseline = 'top';
 	gui_ctx.shadowColor = "#f33";
 	gui_ctx.font = TEXT_FONT_SIZE + "px Deutsch";
-	//buf_ctx.globalAlpha = .5;
 }
 
 function set_sprites () {
