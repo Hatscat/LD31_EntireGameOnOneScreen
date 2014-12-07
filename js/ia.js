@@ -14,7 +14,7 @@ function check_statics_collision(cell, dir)
 	switch (dir)
 	{
 		case 0:
-			if (cell - 1 % COLS)
+			if ((cell + 1) % COLS)
 				return (1);
 		break ;
 		case 1:
@@ -242,22 +242,6 @@ function update_player(cell, mobile)
 	var res;
 
 	gen_map_path(cell);
-	if (map_collectibles[cell] != MAP_COLLECTIBLES_I.empty)
-	{
-		if (map_collectibles[cell] == MAP_COLLECTIBLES_I.trap)
-			current_hp -= 1;
-		else if (map_collectibles[cell] != MAP_COLLECTIBLES_I.gold)
-			current_weapon = map_collectibles[cell];
-		else
-			++score;
-		map_collectibles[cell] = MAP_COLLECTIBLES_I.empty;
-		if (current_hp <= 0)
-		{
-			console.log("Player dead !!");
-			map_mobiles[cell] = 0;
-			return ;
-		}
-	}
 	if (is_key_down("left") && check_statics_collision(cell - 1, 0) && !map_mobiles[cell - 1])
 	{
 		map_mobiles[cell] = 0;
@@ -283,6 +267,23 @@ function update_player(cell, mobile)
 		res = -res;
 		res = (res > 2 ? ((res - 3) * 2 - 1) * COLS : ((res - 1) * 2 - 1));
 		cell += res;
+	}
+
+	if (map_collectibles[cell] != MAP_COLLECTIBLES_I.empty)
+	{
+		if (map_collectibles[cell] == MAP_COLLECTIBLES_I.trap)
+			current_hp -= 1;
+		else if (map_collectibles[cell] != MAP_COLLECTIBLES_I.gold)
+			current_weapon = map_collectibles[cell];
+		else
+			++score;
+		map_collectibles[cell] = MAP_COLLECTIBLES_I.empty;
+		if (current_hp <= 0)
+		{
+			console.log("Player dead !!");
+			map_mobiles[cell] = 0;
+			return ;
+		}
 	}
 	if (is_key_down("attack"))
 	{
