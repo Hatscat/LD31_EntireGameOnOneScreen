@@ -27,12 +27,10 @@ function loop (t)
 				}
 
 				if (map_mobiles[i]) {
-
 					var dir = (map_mobiles[i]-1) % 4;
 					var d = dir<2 ? dir*2-1 : dir==2 ? -COLS: COLS; // 0 = -1; 1 = 1; 2 = -COLS; 3 = COLS
 					var old_dir = (tmp_map_mobiles[i-d]-1) % 4;
 					var last_xy = map_mobiles[i]!=tmp_map_mobiles[i] && map_mobiles[i]-dir==tmp_map_mobiles[i-d]-old_dir ? get_xy(i-d) : xy;
-
 					draw_mobile(xy, last_xy, step_ratio, map_mobiles[i]);
 				}
 
@@ -137,5 +135,5 @@ function get_xy (c) {
 }
 
 function get_cell_from_xy (xy) {
-	return xy[0] + xy[1]*COLS | 0;
+	return ((xy[0] + xy[1]*COLS) | 0);
 }
