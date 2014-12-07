@@ -164,6 +164,10 @@ function set_sprites () {
 
 function fill_maps () {
 
+	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.golem_left;
+	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.archer_up;
+	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.gobelin_down;
+
 	for (var i=CELLS_NB; i--;) {
 
 		if (!map_statics[i]) {
