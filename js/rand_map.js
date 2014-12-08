@@ -67,9 +67,9 @@ function r_rand_map(cell)
 
 }
 
-function rand_map()
-{
-	for (var i = CELLS_NB; i--;)
+function rand_map () {
+
+	/*for (var i = CELLS_NB; i--;)
 	{
 		map_statics[i] = MAP_STATICS_I.in_build;
 	}
@@ -78,6 +78,56 @@ function rand_map()
 	{
 		if (map_statics[i] == MAP_STATICS_I.in_build)
 			r_rand_map(i);
+	}*/
+
+
+
+
+	// quadrillage 
+	for (var i = CELLS_NB; i--;) {
+
+		var xy = get_xy(i);
+		map_statics[i] = xy[0]%2 || xy[1]%2 ? MAP_STATICS_I.empty : MAP_STATICS_I.wall;
 	}
+
+	for (var i = 0; i<CELLS_NB/2; i+=(3+Math.random()*4|0)) {
+
+		var xy = get_xy(i);
+		var x = i%(COLS/2|0);
+		var y = i/(COLS/2)|0
+
+		if (!(x%2) || !(y%2)) {
+			map_statics[x+y*COLS|0] = MAP_STATICS_I.wall;
+			map_statics[COLS+(COLS%2)-x+y*COLS|0] = MAP_STATICS_I.wall;
+		}
+	}
+
+	// 9 empty cells in center to mob spawner
+	var center_cell = get_cell_from_xy([COLS/2|0,ROWS/2|0]);
+
+	map_statics[center_cell-1] = MAP_STATICS_I.empty;
+	map_statics[center_cell] = MAP_STATICS_I.empty;
+	map_statics[center_cell+1] = MAP_STATICS_I.empty;
+	map_statics[center_cell-COLS-1] = MAP_STATICS_I.empty;
+	map_statics[center_cell-COLS] = MAP_STATICS_I.empty;
+	map_statics[center_cell-COLS+1] = MAP_STATICS_I.empty;
+	map_statics[center_cell+COLS-1] = MAP_STATICS_I.empty;
+	map_statics[center_cell+COLS] = MAP_STATICS_I.empty;
+	map_statics[center_cell+COLS+1] = MAP_STATICS_I.empty;
+
+	// 9 empty cells in top left to player spawn
+
+	var player_cell = COLS+1;
+
+	map_statics[player_cell-1] = MAP_STATICS_I.empty;
+	map_statics[player_cell] = MAP_STATICS_I.empty;
+	map_statics[player_cell+1] = MAP_STATICS_I.empty;
+	map_statics[player_cell-COLS-1] = MAP_STATICS_I.empty;
+	map_statics[player_cell-COLS] = MAP_STATICS_I.empty;
+	map_statics[player_cell-COLS+1] = MAP_STATICS_I.empty;
+	map_statics[player_cell+COLS-1] = MAP_STATICS_I.empty;
+	map_statics[player_cell+COLS] = MAP_STATICS_I.empty;
+	map_statics[player_cell+COLS+1] = MAP_STATICS_I.empty;
+
 	fill_collectibles();
 }

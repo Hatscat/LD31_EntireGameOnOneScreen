@@ -43,10 +43,10 @@ function loaded_content () {
 
 	if (++loaded_data_nb >= data_nb_2_load) {
 
-		console.log('load complete: ', loaded_data_nb+'/'+data_nb_2_load);
+		//console.log('load complete: ', loaded_data_nb+'/'+data_nb_2_load);
 
 		audio.bg_music.loop = true;
-		audio.bg_music.play();
+		//audio.bg_music.play();
 		set_sprites();
 		change_sc(SC_GAME);
 	}

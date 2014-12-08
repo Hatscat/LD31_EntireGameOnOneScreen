@@ -73,6 +73,7 @@ function init_config () {
 	score = 0;
 	current_hp = HP_MAX;
 	current_weapon = null;
+	mouse_target = new Uint8Array(4);
 	inputs = new Uint8Array(0xFF);
 	inputs_buf = new Uint8Array(0xFF);
 	map_mobiles_buf = new ArrayBuffer(0xFFF);
@@ -182,8 +183,10 @@ function fill_collectibles () {
 	
 	var rnd_pos = dtMath.rnd255()/255*CELLS_NB|0;
 
-	for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
-	map_mobiles[rnd_pos] = MAP_MOBILES_I.player_down;
+	//for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
+	map_mobiles[COLS+1] = MAP_MOBILES_I.player_down;
+
+	
 	for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty||map_collectibles[rnd_pos]||map_mobiles[rnd_pos]; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
 	map_collectibles[rnd_pos] = MAP_COLLECTIBLES_I.weapon_sword;
 	for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty||map_collectibles[rnd_pos]||map_mobiles[rnd_pos]; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);

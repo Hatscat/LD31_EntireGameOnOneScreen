@@ -159,5 +159,5 @@ function get_xy (c) {
 }
 
 function get_cell_from_xy (xy) {
-	return ((xy[0] + xy[1]*COLS) | 0);
+	return xy[0] + xy[1]*COLS | 0;
 }
