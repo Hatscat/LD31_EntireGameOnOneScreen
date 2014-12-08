@@ -1,6 +1,8 @@
-function loop (t)
-{
-	time = t || 0;
+function loop (t) {
+	
+	time_offset = time_offset ? time_offset : t;
+
+	time = t - time_offset;
 	var last_turn_nb = turn_nb;
 	turn_nb = time/STEP_TIMER | 0;
 	var new_turn = turn_nb > last_turn_nb;
@@ -14,11 +16,11 @@ function loop (t)
 		gui_ctx.fillStyle = '#675';
 		gui_ctx.fillRect(0, 0, W, header_h);
 		gui_ctx.fillStyle = '#000';
-		gui_ctx.fillText('Cake-Man', W/2, 0);
+		gui_ctx.fillText('Castle-Man', W/2, 0);
 
-		gui_ctx.fillText(current_hp?current_hp+'♥':'☠', W/4, CELL_SIZE);
-		gui_ctx.fillText(score+'◎', W/2, CELL_SIZE);
-			
+		gui_ctx.fillText(current_hp?current_hp+"\u2665":'\u2620', W/4, CELL_SIZE); // U+2665 : U+2620 // ♥ // ☠
+		gui_ctx.fillText(score+'\u25CE', W/2, CELL_SIZE); // U+25CE // ◎
+
 		if (current_weapon) {
 			gui_ctx.drawImage(img.collectibles,
 				sprites_src_box.collectibles[current_weapon][0],
@@ -27,9 +29,8 @@ function loop (t)
 				sprites_src_box.collectibles[current_weapon][3],
 				W*3/4-hcs, CELL_SIZE, CELL_SIZE, CELL_SIZE);
 		} else {
-			gui_ctx.fillText('✌', W*3/4, CELL_SIZE);
+			gui_ctx.fillText('\u270C', W*3/4, CELL_SIZE); // U+270C // ✌
 		}
-
 	}
 
 	mob_ctx.clearRect(0, 0, W, H);
@@ -56,7 +57,7 @@ function loop (t)
 					draw_mobile(xy, last_xy, step_ratio, map_mobiles[i]);
 				}
 
-				if (new_turn && tmp_map_mobiles[i]) {
+				if (new_turn && turn_nb>7 && tmp_map_mobiles[i]) {
 					update_mobile(i, tmp_map_mobiles[i], xy);
 				}
 

@@ -122,8 +122,7 @@ function update_player(cell, mobile)
 		if (current_hp <= 0)
 		{
 			console.log("Player dead !!");
-			map_mobiles[cell] = 0;
-			return ;
+			return reset_game();
 		}
 	}
 	if (is_key_down("attack"))

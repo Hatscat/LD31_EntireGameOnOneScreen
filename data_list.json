@@ -16,7 +16,7 @@
 	"audio": [
 		{
 			"name": "bg_music",
-			"url": "audio/adventua-orchestral.mp3"
+			"url": "audio/track_3.mp3"
 		},
 		{
 			"name": "fire_ball",

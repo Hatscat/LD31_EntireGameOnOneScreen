@@ -3,7 +3,7 @@ function init_config () {
 	SC_LOAD = 1;
 	SC_GAME = 2;
 	TRANS_DURATION = 1e3;
-	STEP_TIMER = 250;
+	STEP_TIMER = 333;
 	LEFT = Math.PI;
 	RIGHT = 0;
 	UP = Math.PI * 3 / 2;
@@ -67,6 +67,8 @@ function init_config () {
 	current_sc = SC_LOAD;
 	is_transition = false;
 	time_2_transition = 0;
+	time = 0;
+	time_offset = 0;
 	turn_nb = 0;
 	score = 0;
 	current_hp = HP_MAX;
@@ -89,7 +91,7 @@ function set_size () {
 	W = window.innerWidth;
 	H = window.innerHeight;
 	min_length = W < H ?  W : H;
-	CELL_SIZE = min_length * .06;//.06;
+	CELL_SIZE = min_length * .05;//.06;
 	hcs = CELL_SIZE / 2;
 	header_h = CELL_SIZE * 2;
 	

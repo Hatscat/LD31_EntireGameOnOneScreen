@@ -3,7 +3,7 @@ onload = function () {
 	load_data(function () {
 		init_config();
 		init_events();
-		loop();
+		loop(0);
 	});
 }
 
@@ -32,4 +32,11 @@ function transition () {
 	if (is_transition && time > time_2_transition) {
 		is_transition = false;
 	}
+}
+
+function reset_game () {
+
+	time_offset = 0;
+	init_config();
+	change_sc(SC_GAME);
 }
