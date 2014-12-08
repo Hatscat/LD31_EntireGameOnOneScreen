@@ -103,7 +103,7 @@ function rand_map () {
 	}
 
 	// 9 empty cells in center to mob spawner
-	var center_cell = get_cell_from_xy([COLS/2|0,ROWS/2|0]);
+	var center_cell = get_cell_from_xy(COLS/2|0, ROWS/2|0);
 
 	map_statics[center_cell-1] = MAP_STATICS_I.empty;
 	map_statics[center_cell] = MAP_STATICS_I.empty;

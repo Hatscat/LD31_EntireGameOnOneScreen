@@ -8,7 +8,8 @@ function init_config () {
 	RIGHT = 0;
 	UP = Math.PI * 3 / 2;
 	DOWN = Math.PI / 2;
-	HP_MAX = 30;
+	HP_MAX = 10;
+	MOB_SPAWN_TURN = 20;
 
 	WEAPONS = {
 		sword: { range: 1 },
@@ -84,7 +85,6 @@ function init_config () {
 	dtMath = DirtyMath(window, null, new ArrayBuffer(4e5));
 	dtMath.init();
 	set_size();
-	fill_maps();
 }
 
 function set_size () {
@@ -165,20 +165,6 @@ function set_sprites () {
 
 }
 
-function fill_maps () {
-
-	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.golem_left;
-	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.archer_up;
-	map_mobiles[dtMath.rnd255()/255*CELLS_NB|0] = MAP_MOBILES_I.gobelin_down;
-
-	for (var i=CELLS_NB; i--;) {
-
-		if (!map_statics[i]) {
-			map_statics[i] = MAP_STATICS_I.empty;
-		}
-	}
-}
-
 function fill_collectibles () {
 	
 	var rnd_pos = dtMath.rnd255()/255*CELLS_NB|0;
@@ -186,7 +172,7 @@ function fill_collectibles () {
 	//for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
 	map_mobiles[COLS+1] = MAP_MOBILES_I.player_down;
 
-	
+
 	for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty||map_collectibles[rnd_pos]||map_mobiles[rnd_pos]; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
 	map_collectibles[rnd_pos] = MAP_COLLECTIBLES_I.weapon_sword;
 	for (;map_statics[rnd_pos]!=MAP_STATICS_I.empty||map_collectibles[rnd_pos]||map_mobiles[rnd_pos]; rnd_pos=dtMath.rnd255()/255*CELLS_NB|0);
@@ -205,4 +191,8 @@ function fill_collectibles () {
 			map_collectibles[i] = MAP_COLLECTIBLES_I.gold;
 		}
 	}
+
+	map_mobiles[get_cell_from_xy(COLS/2|0,ROWS/2|0)+1] = MAP_MOBILES_I.golem_left;
+	map_mobiles[get_cell_from_xy(COLS/2|0,ROWS/2|0)-1] = MAP_MOBILES_I.archer_up;
+	map_mobiles[get_cell_from_xy(COLS/2|0,ROWS/2|0)+COLS] = MAP_MOBILES_I.gobelin_down;
 }

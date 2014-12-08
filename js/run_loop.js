@@ -31,6 +31,12 @@ function loop (t) {
 		} else {
 			gui_ctx.fillText('\u270C', W*3/4, CELL_SIZE); // U+270C // ✌
 		}
+
+		if (turn_nb%MOB_SPAWN_TURN == 0) {
+
+			var rnd = dtMath.rnd255();
+			map_mobiles[get_cell_from_xy(COLS/2|0,ROWS/2|0)] = rnd<70 ? MAP_MOBILES_I.golem_down : rnd<150 ? MAP_MOBILES_I.archer_down : MAP_MOBILES_I.gobelin_down;
+		}
 	}
 
 	mob_ctx.clearRect(0, 0, W, H);
@@ -158,6 +164,6 @@ function get_xy (c) {
 	return [c%COLS, c/COLS|0];
 }
 
-function get_cell_from_xy (xy) {
-	return xy[0] + xy[1]*COLS | 0;
+function get_cell_from_xy (x, y) {
+	return x + y*COLS | 0;
 }
