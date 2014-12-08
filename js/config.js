@@ -8,7 +8,7 @@ function init_config () {
 	RIGHT = 0;
 	UP = Math.PI * 3 / 2;
 	DOWN = Math.PI / 2;
-	HP_MAX = 3;
+	HP_MAX = 30;
 
 	WEAPONS = {
 		sword: { range: 1 },

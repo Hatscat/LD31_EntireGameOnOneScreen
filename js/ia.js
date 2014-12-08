@@ -14,19 +14,19 @@ function check_screen_collision(cell, dir)
 		case 0:
 			if ((cell + 1) % COLS)
 				return (1);
-		break ;
+			break ;
 		case 1:
 			if ((cell) % COLS)
 				return (1);
-		break ;
+			break ;
 		case 2:
 			if (cell >= 0)
 				return (1);
-		break ;
+			break ;
 		case 3:
 			if (cell < CELLS_NB)
 				return (1);
-		break ;
+			break ;
 	}
 	return (0);
 }
@@ -38,16 +38,16 @@ function check_statics_collision(cell, dir)
 		{
 			case 0:
 				cell += COLS;
-			break ;
+				break ;
 			case 1:
 				cell -= COLS;
-			break ;
+				break ;
 			case 2:
 				cell += COLS * (ROWS);
-			break ;
+				break ;
 			case 3:
 				cell %= COLS;
-			break ;
+				break ;
 		}
 	if (map_statics[cell] == MAP_STATICS_I.empty)
 	{
@@ -59,6 +59,12 @@ function check_statics_collision(cell, dir)
 function update_player(cell, mobile)
 {
 	var res;
+
+	if (map_collectibles[cell] == MAP_COLLECTIBLES_I.gold)
+	{
+		++score;
+		map_collectibles[cell] = MAP_COLLECTIBLES_I.empty;
+	}
 
 	gen_map_path(cell);
 	if (is_key_down("left") && !check_statics_collision(cell - 1, 0) && !map_mobiles[cell - 1] && !map_mobiles_buf[cell - 1] && check_other_mob(cell - 1))
@@ -117,7 +123,7 @@ function update_player(cell, mobile)
 						map_mobiles[cell] = mobile;
 					}
 				}
-			break ;
+				break ;
 			case 1: // right
 				if (!(res2 = check_statics_collision(cell + 1, 1)))
 				{
@@ -134,7 +140,7 @@ function update_player(cell, mobile)
 						map_mobiles[cell] = mobile;
 					}
 				}
-			break ;
+				break ;
 			case 2: // up
 				if (!(res2 = check_statics_collision(cell - COLS, 2)))
 				{
@@ -151,7 +157,7 @@ function update_player(cell, mobile)
 						map_mobiles[cell] = mobile;
 					}
 				}
-			break ;
+				break ;
 			case 3: // down
 				if (!(res2 = check_statics_collision(cell + COLS, 3)))
 				{
@@ -168,7 +174,7 @@ function update_player(cell, mobile)
 						map_mobiles[cell] = mobile;
 					}
 				}
-			break ;
+				break ;
 		}
 	}
 
@@ -203,24 +209,24 @@ function update_player(cell, mobile)
 				console.log("rm :" + map_mobiles[cell + mv]);
 				if ((map_mobiles[cell + mv] >= MAP_MOBILES_I.golem_left && map_mobiles[cell + mv] <= MAP_MOBILES_I.golem_down) || !map_mobiles[cell + mv])
 					map_mobiles[cell + mv] = MAP_MOBILES_I["fire_ball_" + ["left", "right", "up", "down"][dir - 1]];
-			break ;
+				break ;
 			case MAP_COLLECTIBLES_I.weapon_sword:
 				var dir = (mobile - 1) % 4 + 1;
 				var mv = (dir > 2 ? ((dir - 3) * 2 - 1) * COLS : ((dir - 1) * 2 - 1));
 				console.log("rm :" + map_mobiles[cell + mv]);
 				if ((map_mobiles[cell + mv] >= MAP_MOBILES_I.gobelin_left && map_mobiles[cell + mv] <= MAP_MOBILES_I.gobelin_down) || !map_mobiles[cell + mv])
 					map_mobiles[cell + mv] = MAP_MOBILES_I["sword_" + ["left", "right", "up", "down"][dir - 1]];
-			break ;
+				break ;
 			case MAP_COLLECTIBLES_I.weapon_mace:
 				var dir = (mobile - 1) % 4 + 1;
 				var mv = (dir > 2 ? ((dir - 3) * 2 - 1) * COLS : ((dir - 1) * 2 - 1));
 				console.log("rm :" + map_mobiles[cell + mv]);
 				if ((map_mobiles[cell + mv] >= MAP_MOBILES_I.archer_left && map_mobiles[cell + mv] <= MAP_MOBILES_I.archer_down) || !map_mobiles[cell + mv])
 					map_mobiles[cell + mv] = MAP_MOBILES_I["mace_" + ["left", "right", "up", "down"][dir - 1]];
-			break ;
+				break ;
 			default :
 				console.log("Echec critique, pliz do ALT-F4");
-			break ;
+				break ;
 		}
 
 	}
@@ -235,8 +241,8 @@ function check_arrow(cell)
 {
 	if (map_mobiles[cell] >= MAP_MOBILES_I.player_left && map_mobiles[cell] <= MAP_MOBILES_I.player_down)
 	{
-			current_hp -= 1;
-			return (0);
+		current_hp -= 1;
+		return (0);
 	}
 	return (1);
 }
@@ -244,13 +250,13 @@ function check_arrow(cell)
 function check_other_mob(cell)
 {
 	if ((map_mobiles[cell] >= MAP_MOBILES_I.golem_left && map_mobiles[cell] <= MAP_MOBILES_I.golem_down)
-		|| (map_mobiles[cell] >= MAP_MOBILES_I.gobelin_left && map_mobiles[cell] <= MAP_MOBILES_I.gobelin_down)
-		|| (map_mobiles[cell] >= MAP_MOBILES_I.archer_left && map_mobiles[cell] <= MAP_MOBILES_I.archer_down)
-		|| (map_mobiles_buf[cell] >= MAP_MOBILES_I.golem_left && map_mobiles_buf[cell] <= MAP_MOBILES_I.golem_down)
-		|| (map_mobiles_buf[cell] >= MAP_MOBILES_I.gobelin_left && map_mobiles_buf[cell] <= MAP_MOBILES_I.gobelin_down)
-		|| (map_mobiles_buf[cell] >= MAP_MOBILES_I.archer_left && map_mobiles_buf[cell] <= MAP_MOBILES_I.archer_down))
+			|| (map_mobiles[cell] >= MAP_MOBILES_I.gobelin_left && map_mobiles[cell] <= MAP_MOBILES_I.gobelin_down)
+			|| (map_mobiles[cell] >= MAP_MOBILES_I.archer_left && map_mobiles[cell] <= MAP_MOBILES_I.archer_down)
+			|| (map_mobiles_buf[cell] >= MAP_MOBILES_I.golem_left && map_mobiles_buf[cell] <= MAP_MOBILES_I.golem_down)
+			|| (map_mobiles_buf[cell] >= MAP_MOBILES_I.gobelin_left && map_mobiles_buf[cell] <= MAP_MOBILES_I.gobelin_down)
+			|| (map_mobiles_buf[cell] >= MAP_MOBILES_I.archer_left && map_mobiles_buf[cell] <= MAP_MOBILES_I.archer_down))
 	{
-			return (0);
+		return (0);
 	}
 	return (1);
 }
@@ -279,7 +285,7 @@ function update_arrow(cell, mobile)
 						map_mobiles[cell] = mobile;
 				}
 			}
-		break ;
+			break ;
 		case 1: // right
 			if (!(res = check_statics_collision(cell + 1, 1)))
 			{
@@ -297,7 +303,7 @@ function update_arrow(cell, mobile)
 						map_mobiles[cell] = mobile;
 				}
 			}
-		break ;
+			break ;
 		case 2: // up
 			if (!(res = check_statics_collision(cell - COLS, 2)))
 			{
@@ -315,7 +321,7 @@ function update_arrow(cell, mobile)
 						map_mobiles[cell] = mobile;
 				}
 			}
-		break ;
+			break ;
 		case 3: // down
 			if (!(res = check_statics_collision(cell + COLS, 3)))
 			{
@@ -333,7 +339,7 @@ function update_arrow(cell, mobile)
 						map_mobiles[cell] = mobile;
 				}
 			}
-		break ;
+			break ;
 	}
 }
 
@@ -359,7 +365,7 @@ function update_fire_ball(cell, mobile)
 					map_mobiles[cell] = mobile;
 				}
 			}
-		break ;
+			break ;
 		case 1: // right
 			if (!(res = check_statics_collision(cell + 1, 1)))
 			{
@@ -367,15 +373,15 @@ function update_fire_ball(cell, mobile)
 				if (!check_screen_collision(cell + 1, 1))
 				{
 					cell -= COLS - 1;
-						map_mobiles[cell] = mobile;
+					map_mobiles[cell] = mobile;
 				}
 				else
 				{
 					cell += 1;
-						map_mobiles[cell] = mobile;
+					map_mobiles[cell] = mobile;
 				}
 			}
-		break ;
+			break ;
 		case 2: // up
 			if (!(res = check_statics_collision(cell - COLS, 2)))
 			{
@@ -383,15 +389,15 @@ function update_fire_ball(cell, mobile)
 				if (!check_screen_collision(cell - COLS, 2))
 				{
 					cell += COLS * (ROWS - 1);
-						map_mobiles[cell] = mobile;
+					map_mobiles[cell] = mobile;
 				}
 				else
 				{
 					cell -= COLS;
-						map_mobiles[cell] = mobile;
+					map_mobiles[cell] = mobile;
 				}
 			}
-		break ;
+			break ;
 		case 3: // down
 			if (!(res = check_statics_collision(cell + COLS, 3)))
 			{
@@ -399,15 +405,15 @@ function update_fire_ball(cell, mobile)
 				if (!check_screen_collision(cell + COLS, 3))
 				{
 					cell %= COLS;
-						map_mobiles[cell] = mobile;
+					map_mobiles[cell] = mobile;
 				}
 				else
 				{
 					cell += COLS;
-						map_mobiles[cell] = mobile;
+					map_mobiles[cell] = mobile;
 				}
 			}
-		break ;
+			break ;
 	}
 }
 
@@ -457,6 +463,14 @@ function update_archer(cell, mobile)
 	var dist = map_path[cell];
 	var dir;
 
+	if (map_collectibles[cell] == MAP_COLLECTIBLES_I.trap)
+	{
+		map_mobiles[cell] = 0;
+		map_collectibles[cell] =  MAP_COLLECTIBLES_I.empty;
+		return ;
+	}
+
+
 	if (dist < 5 && (dir = is_in_sight(cell, dist)))
 	{
 		var mv = (dir > 2 ? ((dir - 3) * 2 - 1) * COLS : ((dir - 1) * 2 - 1));
@@ -466,10 +480,10 @@ function update_archer(cell, mobile)
 	}
 	else
 	{
-	var dist = map_path[cell];
-	var xy = get_xy(cell);
-	
-	if (xy[0] == 0 && map_statics[cell + COLS - 1] == MAP_STATICS_I.empty && map_path[cell + COLS - 1] < dist)
+		var dist = map_path[cell];
+		var xy = get_xy(cell);
+
+		if (xy[0] == 0 && map_statics[cell + COLS - 1] == MAP_STATICS_I.empty && map_path[cell + COLS - 1] < dist)
 		{
 			if (check_arrow(cell + COLS - 1) && check_other_mob(cell + COLS - 1))
 			{
@@ -477,7 +491,7 @@ function update_archer(cell, mobile)
 				map_mobiles[cell + COLS - 1] = MAP_MOBILES_I.archer_left;
 			}
 		}
-	else if (map_statics[cell - 1] == MAP_STATICS_I.empty && map_path[cell - 1] < dist)
+		else if (map_statics[cell - 1] == MAP_STATICS_I.empty && map_path[cell - 1] < dist)
 		{
 			if (check_arrow(cell - 1) && check_other_mob(cell - 1))
 			{
@@ -485,7 +499,7 @@ function update_archer(cell, mobile)
 				map_mobiles[cell - 1] = MAP_MOBILES_I.archer_left;
 			}
 		}
-	else if (xy[0] == COLS - 1 && map_statics[cell - COLS + 1] == MAP_STATICS_I.empty && map_path[cell - COLS + 1] < dist)
+		else if (xy[0] == COLS - 1 && map_statics[cell - COLS + 1] == MAP_STATICS_I.empty && map_path[cell - COLS + 1] < dist)
 		{
 			if (check_arrow(cell - COLS + 1) && check_other_mob(cell - COLS + 1))
 			{
@@ -493,7 +507,7 @@ function update_archer(cell, mobile)
 				map_mobiles[cell - COLS + 1] = MAP_MOBILES_I.archer_right;
 			}
 		}
-	else if (map_statics[cell + 1] == MAP_STATICS_I.empty && map_path[cell + 1] < dist)
+		else if (map_statics[cell + 1] == MAP_STATICS_I.empty && map_path[cell + 1] < dist)
 		{
 			if (check_arrow(cell + 1) && check_other_mob(cell + 1))
 			{
@@ -501,7 +515,7 @@ function update_archer(cell, mobile)
 				map_mobiles[cell + 1] = MAP_MOBILES_I.archer_right;
 			}
 		}
-	else if (xy[1] == 0 && map_statics[cell + COLS * (ROWS - 1)] == MAP_STATICS_I.empty && map_path[cell + COLS * (ROWS - 1)] < dist)
+		else if (xy[1] == 0 && map_statics[cell + COLS * (ROWS - 1)] == MAP_STATICS_I.empty && map_path[cell + COLS * (ROWS - 1)] < dist)
 		{
 			if (check_arrow(cell + COLS * (ROWS - 1)) && check_other_mob(cell + COLS * (ROWS - 1)))
 			{
@@ -509,7 +523,7 @@ function update_archer(cell, mobile)
 				map_mobiles[cell + COLS * (ROWS - 1)] = MAP_MOBILES_I.archer_up;
 			}
 		}
-	else if (map_statics[cell - COLS] == MAP_STATICS_I.empty && map_path[cell - COLS] < dist)
+		else if (map_statics[cell - COLS] == MAP_STATICS_I.empty && map_path[cell - COLS] < dist)
 		{
 			if (check_arrow(cell - COLS) && check_other_mob(cell - COLS))
 			{
@@ -517,7 +531,7 @@ function update_archer(cell, mobile)
 				map_mobiles[cell - COLS] = MAP_MOBILES_I.archer_up;
 			}
 		}
-	else if (xy[1] == ROWS - 1 && map_statics[cell % COLS] == MAP_STATICS_I.empty && map_path[cell % COLS] < dist)
+		else if (xy[1] == ROWS - 1 && map_statics[cell % COLS] == MAP_STATICS_I.empty && map_path[cell % COLS] < dist)
 		{
 			if (check_arrow(cell % COLS) && check_other_mob(cell % COLS))
 			{
@@ -525,7 +539,7 @@ function update_archer(cell, mobile)
 				map_mobiles[cell % COLS] = MAP_MOBILES_I.archer_down;
 			}
 		}
-	else if (map_statics[cell + COLS] == MAP_STATICS_I.empty && map_path[cell + COLS] < dist)
+		else if (map_statics[cell + COLS] == MAP_STATICS_I.empty && map_path[cell + COLS] < dist)
 		{
 			if (check_arrow(cell + COLS) && check_other_mob(cell + COLS))
 			{
@@ -540,71 +554,77 @@ function update_golem(cell, mobile)
 {
 	var dist = map_path[cell];
 	var xy = get_xy(cell);
-	
+
+	if (map_collectibles[cell] == MAP_COLLECTIBLES_I.trap)
+	{
+		map_mobiles[cell] = 0;
+		map_collectibles[cell] =  MAP_COLLECTIBLES_I.empty;
+		return ;
+	}
 	if (xy[0] == 0 && map_statics[cell + COLS - 1] == MAP_STATICS_I.empty && map_path[cell + COLS - 1] < dist)
+	{
+		if (check_arrow(cell + COLS - 1) && check_other_mob(cell + COLS - 1))
 		{
-			if (check_arrow(cell + COLS - 1) && check_other_mob(cell + COLS - 1))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell + COLS - 1] = MAP_MOBILES_I.golem_left;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell + COLS - 1] = MAP_MOBILES_I.golem_left;
 		}
+	}
 	else if (map_statics[cell - 1] == MAP_STATICS_I.empty && map_path[cell - 1] < dist)
+	{
+		if (check_arrow(cell - 1) && check_other_mob(cell - 1))
 		{
-			if (check_arrow(cell - 1) && check_other_mob(cell - 1))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell - 1] = MAP_MOBILES_I.golem_left;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell - 1] = MAP_MOBILES_I.golem_left;
 		}
+	}
 	else if (xy[0] == COLS - 1 && map_statics[cell - COLS + 1] == MAP_STATICS_I.empty && map_path[cell - COLS + 1] < dist)
+	{
+		if (check_arrow(cell - COLS + 1) && check_other_mob(cell - COLS + 1))
 		{
-			if (check_arrow(cell - COLS + 1) && check_other_mob(cell - COLS + 1))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell - COLS + 1] = MAP_MOBILES_I.golem_right;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell - COLS + 1] = MAP_MOBILES_I.golem_right;
 		}
+	}
 	else if (map_statics[cell + 1] == MAP_STATICS_I.empty && map_path[cell + 1] < dist)
+	{
+		if (check_arrow(cell + 1) && check_other_mob(cell + 1))
 		{
-			if (check_arrow(cell + 1) && check_other_mob(cell + 1))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell + 1] = MAP_MOBILES_I.golem_right;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell + 1] = MAP_MOBILES_I.golem_right;
 		}
+	}
 	else if (xy[1] == 0 && map_statics[cell + COLS * (ROWS - 1)] == MAP_STATICS_I.empty && map_path[cell + COLS * (ROWS - 1)] < dist)
+	{
+		if (check_arrow(cell + COLS * (ROWS - 1)) && check_other_mob(cell + COLS * (ROWS - 1)))
 		{
-			if (check_arrow(cell + COLS * (ROWS - 1)) && check_other_mob(cell + COLS * (ROWS - 1)))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell + COLS * (ROWS - 1)] = MAP_MOBILES_I.golem_up;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell + COLS * (ROWS - 1)] = MAP_MOBILES_I.golem_up;
 		}
+	}
 	else if (map_statics[cell - COLS] == MAP_STATICS_I.empty && map_path[cell - COLS] < dist)
+	{
+		if (check_arrow(cell - COLS) && check_other_mob(cell - COLS))
 		{
-			if (check_arrow(cell - COLS) && check_other_mob(cell - COLS))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell - COLS] = MAP_MOBILES_I.golem_up;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell - COLS] = MAP_MOBILES_I.golem_up;
 		}
+	}
 	else if (xy[1] == ROWS - 1 && map_statics[cell % COLS] == MAP_STATICS_I.empty && map_path[cell % COLS] < dist)
+	{
+		if (check_arrow(cell % COLS) && check_other_mob(cell % COLS))
 		{
-			if (check_arrow(cell % COLS) && check_other_mob(cell % COLS))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell % COLS] = MAP_MOBILES_I.golem_down;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell % COLS] = MAP_MOBILES_I.golem_down;
 		}
+	}
 	else if (map_statics[cell + COLS] == MAP_STATICS_I.empty && map_path[cell + COLS] < dist)
+	{
+		if (check_arrow(cell + COLS) && check_other_mob(cell + COLS))
 		{
-			if (check_arrow(cell + COLS) && check_other_mob(cell + COLS))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell + COLS] = MAP_MOBILES_I.golem_down;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell + COLS] = MAP_MOBILES_I.golem_down;
 		}
+	}
 }
 
 function update_gobelin(cell, mobile)
@@ -612,68 +632,74 @@ function update_gobelin(cell, mobile)
 	var dist = map_path[cell];
 	var xy = get_xy(cell);
 
+	if (map_collectibles[cell] == MAP_COLLECTIBLES_I.trap)
+	{
+		map_mobiles[cell] = 0;
+		map_collectibles[cell] =  MAP_COLLECTIBLES_I.empty;
+		return ;
+	}
 	if (xy[0] == 0 && map_statics[cell + COLS - 1] == MAP_STATICS_I.empty && map_path[cell + COLS - 1] < dist)
+	{
+		if (check_arrow(cell + COLS - 1) && check_other_mob(cell + COLS - 1))
 		{
-			if (check_arrow(cell + COLS - 1) && check_other_mob(cell + COLS - 1))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell + COLS - 1] = MAP_MOBILES_I.gobelin_left;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell + COLS - 1] = MAP_MOBILES_I.gobelin_left;
 		}
+	}
 	else if (map_statics[cell - 1] == MAP_STATICS_I.empty && map_path[cell - 1] < dist)
+	{
+		if (check_arrow(cell - 1) && check_other_mob(cell - 1))
 		{
-			if (check_arrow(cell - 1) && check_other_mob(cell - 1))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell - 1] = MAP_MOBILES_I.gobelin_left;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell - 1] = MAP_MOBILES_I.gobelin_left;
 		}
+	}
 	else if (xy[0] == COLS - 1 && map_statics[cell - COLS + 1] == MAP_STATICS_I.empty && map_path[cell - COLS + 1] < dist)
+	{
+		if (check_arrow(cell - COLS + 1) && check_other_mob(cell - COLS + 1))
 		{
-			if (check_arrow(cell - COLS + 1) && check_other_mob(cell - COLS + 1))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell - COLS + 1] = MAP_MOBILES_I.gobelin_right;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell - COLS + 1] = MAP_MOBILES_I.gobelin_right;
 		}
+	}
 	else if (map_statics[cell + 1] == MAP_STATICS_I.empty && map_path[cell + 1] < dist)
+	{
+		if (check_arrow(cell + 1) && check_other_mob(cell + 1))
 		{
-			if (check_arrow(cell + 1) && check_other_mob(cell + 1))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell + 1] = MAP_MOBILES_I.gobelin_right;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell + 1] = MAP_MOBILES_I.gobelin_right;
 		}
+	}
 	else if (xy[1] == 0 && map_statics[cell + COLS * (ROWS - 1)] == MAP_STATICS_I.empty && map_path[cell + COLS * (ROWS - 1)] < dist)
+	{
+		if (check_arrow(cell + COLS * (ROWS - 1)) && check_other_mob(cell + COLS * (ROWS - 1)))
 		{
-			if (check_arrow(cell + COLS * (ROWS - 1)) && check_other_mob(cell + COLS * (ROWS - 1)))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell + COLS * (ROWS - 1)] = MAP_MOBILES_I.gobelin_up;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell + COLS * (ROWS - 1)] = MAP_MOBILES_I.gobelin_up;
 		}
+	}
 	else if (map_statics[cell - COLS] == MAP_STATICS_I.empty && map_path[cell - COLS] < dist)
+	{
+		if (check_arrow(cell - COLS) && check_other_mob(cell - COLS))
 		{
-			if (check_arrow(cell - COLS) && check_other_mob(cell - COLS))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell - COLS] = MAP_MOBILES_I.gobelin_up;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell - COLS] = MAP_MOBILES_I.gobelin_up;
 		}
+	}
 	else if (xy[1] == ROWS - 1 && map_statics[cell % COLS] == MAP_STATICS_I.empty && map_path[cell % COLS] < dist)
+	{
+		if (check_arrow(cell % COLS) && check_other_mob(cell % COLS))
 		{
-			if (check_arrow(cell % COLS) && check_other_mob(cell % COLS))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell % COLS] = MAP_MOBILES_I.gobelin_down;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell % COLS] = MAP_MOBILES_I.gobelin_down;
 		}
+	}
 	else if (map_statics[cell + COLS] == MAP_STATICS_I.empty && map_path[cell + COLS] < dist)
+	{
+		if (check_arrow(cell + COLS) && check_other_mob(cell + COLS))
 		{
-			if (check_arrow(cell + COLS) && check_other_mob(cell + COLS))
-			{
-				map_mobiles[cell] = 0;
-				map_mobiles[cell + COLS] = MAP_MOBILES_I.gobelin_down;
-			}
+			map_mobiles[cell] = 0;
+			map_mobiles[cell + COLS] = MAP_MOBILES_I.gobelin_down;
 		}
+	}
 }
