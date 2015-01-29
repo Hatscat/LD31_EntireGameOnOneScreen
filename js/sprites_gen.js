@@ -1,3 +1,5 @@
+//comment useless
+
 function sprite () {
 
 	var c = document.createElement('canvas');
